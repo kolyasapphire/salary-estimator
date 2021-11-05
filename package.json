@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "graphql": "16.0.0",
+    "graphql": "16.0.1",
     "graphql-request": "3.6.1"
   },
   "type": "module"
