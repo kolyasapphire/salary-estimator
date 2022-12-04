@@ -2,7 +2,7 @@ import { request, gql } from 'graphql-request'
 
 const ENDPOINT = 'https://api.profunctor.io/v1/graphql'
 
-const genQuery = (level, job) => gql`
+const genQuery = (level: string, job: string) => gql`
   query GetFilteredJobs {
 		jobs(
 		  limit: 5000
@@ -42,7 +42,9 @@ const genQuery = (level, job) => gql`
 `
 
 // Must be capitalised
-const levels = ['Middle', 'Senior']
+const levels = ['middle', 'senior'].map(
+  (x) => x.charAt(0).toUpperCase() + x.slice(1)
+)
 const jobs = ['frontend', 'fullstack']
 
 const combinations = levels.flatMap((level) =>
@@ -52,7 +54,7 @@ const combinations = levels.flatMap((level) =>
 for (let combo of combinations) {
   const query = genQuery(combo.level, combo.job)
   const res = await request(ENDPOINT, query)
-  const jobs = res.jobs
+  const jobs = res.jobs as { cash_min: number; cash_max: number }[]
 
   const averageLow =
     jobs.reduce((acc, item) => acc + item.cash_min, 0) / jobs.length
@@ -61,7 +63,7 @@ for (let combo of combinations) {
 
   const average = averageHigh - (averageHigh - averageLow) / 2
 
-  const round = (x) => Math.round(x)
+  const round = (x: number) => Math.round(x)
 
   console.log(
     combo.level,

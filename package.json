@@ -5,7 +5,7 @@
   },
   "type": "module",
   "scripts": {
-    "estimate": "ts-node index.ts"
+    "start": "ts-node index.ts"
   },
   "devDependencies": {
     "ts-node": "10.9.1",
