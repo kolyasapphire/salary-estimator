@@ -53,8 +53,10 @@ const combinations = levels.flatMap((level) =>
 
 for (let combo of combinations) {
   const query = genQuery(combo.level, combo.job)
-  const res = await request(ENDPOINT, query)
-  const jobs = res.jobs as { cash_min: number; cash_max: number }[]
+  const res = (await request(ENDPOINT, query)) as {
+    jobs: { cash_min: number; cash_max: number }[]
+  }
+  const jobs = res.jobs
 
   const averageLow =
     jobs.reduce((acc, item) => acc + item.cash_min, 0) / jobs.length
